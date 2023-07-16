@@ -6,7 +6,7 @@
 #include "../common/util.h"
 
 static BOOL
-tryrun(HINSTANCE instance, HANDLE resinfo, const TCHAR *exepath)
+tryrun(HANDLE resinfo, const TCHAR *exepath)
 {
 	HGLOBAL reshandle;
 	HANDLE exefile;
@@ -20,9 +20,9 @@ tryrun(HINSTANCE instance, HANDLE resinfo, const TCHAR *exepath)
 	ZeroMemory(&startup, sizeof(startup));
 	startup.cb = sizeof(startup);
 
-	if (!(reshandle = LoadResource(instance, resinfo)) ||
+	if (!(reshandle = LoadResource(NULL, resinfo)) ||
 	    !(data = LockResource(reshandle)) ||
-	    !(datasz = SizeofResource(instance, resinfo)))
+	    !(datasz = SizeofResource(NULL, resinfo)))
 		err(_T("Failed to load embedded resource"));
 
 	exefile = CreateFile(exepath, GENERIC_WRITE, FILE_SHARE_READ,
@@ -54,8 +54,8 @@ tryrun(HINSTANCE instance, HANDLE resinfo, const TCHAR *exepath)
 	return ran;
 }
 
-int CALLBACK
-WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
+int
+main(void)
 {
 	int id;
 	size_t sz;
@@ -64,7 +64,7 @@ WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
 	TCHAR exepath[MAX_PATH+1];
 	HRSRC resinfo;
 
-	if (!(GetModuleFileName(instance, modulepath, LEN(modulepath))))
+	if (!(GetModuleFileName(NULL, modulepath, LEN(modulepath))))
 		err(_T("Failed to get program filename"));
 	if (!(GetTempPath(LEN(tempdir), tempdir)))
 		err(_T("Failed to get temporary directory"));
@@ -79,12 +79,12 @@ WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
 	SetErrorMode(SEM_FAILCRITICALERRORS);
 
 	for (id = 1000; ; id++) {
-		resinfo = FindResource(instance, MAKEINTRESOURCE(id),
+		resinfo = FindResource(NULL, MAKEINTRESOURCE(id),
 		    RT_RCDATA);
 		if (!resinfo)
 			break;
 
-		if (tryrun(instance, resinfo, exepath))
+		if (tryrun(resinfo, exepath))
 			return 0;
 	}
 
