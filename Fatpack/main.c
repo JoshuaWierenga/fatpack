@@ -183,7 +183,7 @@ dialogproc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			movefile(wnd, 1);
 			return TRUE;
 		case IDC_PACK:
-			pack(wnd, 0, NULL, NULL);
+			pack(wnd, 0, NULL);
 			return TRUE;
 		}
 		break;
