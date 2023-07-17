@@ -10,6 +10,8 @@
 #include "../FatpackTUI/resource.h"
 #endif
 
+_TCHAR* fatbinarypath = NULL;
+
 BOOL
 packinit(const _TCHAR* path) {
 	HINSTANCE instance;
@@ -100,4 +102,119 @@ packadd(HANDLE resupdate, int i, const TCHAR* path) {
 	CloseHandle(mapping);
 	CloseHandle(file);
 	return TRUE;
+}
+
+void
+pack(HWND dialog, int programc, _TCHAR** programv) {
+#if defined(FatpackGUI)
+	HINSTANCE instance;
+	HWND listbox;
+	OPENFILENAME ofn;
+	TCHAR path[4096];
+	TCHAR srcpath[4096];
+#elif defined(FatpackTUI)
+	_TCHAR* path;
+	_TCHAR* srcpath;
+#endif
+	LRESULT count;
+	TCHAR tmpdir[MAX_PATH + 1];
+	TCHAR tmppath[MAX_PATH + 1];
+	HANDLE resupdate;
+	int i;
+
+	tmppath[0] = '\0';
+#if defined(FatpackGUI)
+	instance = GetModuleHandle(NULL);
+
+	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
+		warn(_T("Failed to get list box handle"));
+		return;
+	}
+
+	count = SendMessage(listbox, LB_GETCOUNT, 0, 0);
+	if (count == LB_ERR) {
+		warnx(_T("Failed to get list box item count."));
+		return;
+	}
+#elif defined(FatpackTUI)
+	count = programc;
+#endif
+
+	if (!count) {
+		warnx(_T("Add one or more executables to pack into a ")
+			_T("'fat' universal binary."));
+		return;
+	}
+
+#if defined(FatpackGUI)
+	path[0] = _T('\0');
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = dialog;
+	ofn.hInstance = instance;
+	ofn.lpstrFilter =
+		_T("Executable (*.exe)\0*.exe\0")
+		_T("All Files (*.*)\0*.*\0");
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFile = path;
+	ofn.nMaxFile = LEN(path);
+	ofn.lpstrDefExt = _T("exe");
+	ofn.Flags = OFN_OVERWRITEPROMPT;
+
+	if (!GetSaveFileName(&ofn))
+		return;
+#elif defined (FatpackTUI)
+	if (fatbinarypath == NULL) {
+		warnx(_T("Path to output 'fat' universal binary required, ")
+			_T("specify with - o"));
+		return;
+	}
+
+	path = fatbinarypath;
+#endif
+	if (!GetTempPath(LEN(tmpdir), tmpdir)) {
+		warn(_T("Failed to get temporary directory path"));
+		return;
+	}
+
+	if (!GetTempFileName(tmpdir, _T("Fpk"), 0, tmppath)) {
+		warn(_T("Failed to get temporary file path"));
+		return;
+	}
+
+	if (!packinit(tmppath))
+		return;
+
+	if (!(resupdate = BeginUpdateResource(tmppath, FALSE))) {
+		warn(_T("Failed to open the temporary file for resource ")
+			_T("editing"));
+		goto cleanup;
+	}
+
+	for (i = 0; i < count; i++) {
+#if defined(FatpackGUI)
+		if (!getlbstring(listbox, i, srcpath, LEN(srcpath)))
+			goto cleanup;
+#elif defined(FatpackTUI)
+		// TODO: Rewrite relative paths as absolute paths with \\.\ when possible
+		if (programv[i][0] == _T('\0'))
+			goto cleanup;
+		srcpath = programv[i];
+#endif
+		if (!packadd(resupdate, i, srcpath))
+			goto cleanup;
+	}
+
+	EndUpdateResource(resupdate, FALSE);
+	resupdate = NULL;
+
+	if (!CopyFile(tmppath, path, FALSE))
+		warn(_T("Failed to write output file"));
+
+cleanup:
+	if (resupdate)
+		EndUpdateResource(resupdate, TRUE);
+	if (tmppath[0])
+		DeleteFile(tmppath);
 }

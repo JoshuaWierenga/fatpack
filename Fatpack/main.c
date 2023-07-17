@@ -6,7 +6,7 @@
 #include "../common/util.h"
 #include "resource.h"
 
-static BOOL
+BOOL
 getlbstring(HWND listbox, int idx, TCHAR *buf, size_t bufsz)
 {
 	LRESULT len;
@@ -156,97 +156,6 @@ movefile(HWND dialog, int offset)
 	SendMessage(listbox, LB_SETCURSEL, (WPARAM)(idx+offset), 0);
 }
 
-static void
-pack(HWND dialog)
-{
-	HINSTANCE instance;
-	HWND listbox;
-	LRESULT count;
-	OPENFILENAME ofn;
-	TCHAR path[4096];
-	TCHAR tmpdir[MAX_PATH+1];
-	TCHAR tmppath[MAX_PATH+1];
-	HANDLE resupdate = NULL;
-	TCHAR srcpath[4096];
-	int i;
-
-	tmppath[0] = '\0';
-	instance = GetModuleHandle(NULL);
-
-	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
-		warn(_T("Failed to get list box handle"));
-		return;
-	}
-
-	count = SendMessage(listbox, LB_GETCOUNT, 0, 0);
-	if (count == LB_ERR) {
-		warnx(_T("Failed to get list box item count."));
-		return;
-	}
-
-	if (!count) {
-		warnx(_T("Add one or more executables to pack into a ")
-		    _T("'fat' universal binary."));
-		return;
-	}
-
-	path[0] = _T('\0');
-
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = dialog;
-	ofn.hInstance = instance;
-	ofn.lpstrFilter =
-	    _T("Executable (*.exe)\0*.exe\0")
-	    _T("All Files (*.*)\0*.*\0");
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFile = path;
-	ofn.nMaxFile = LEN(path);
-	ofn.lpstrDefExt = _T("exe");
-	ofn.Flags = OFN_OVERWRITEPROMPT;
-
-	if (!GetSaveFileName(&ofn))
-		return;
-
-	if (!GetTempPath(LEN(tmpdir), tmpdir)) {
-		warn(_T("Failed to get temporary directory path"));
-		return;
-	}
-
-	if (!GetTempFileName(tmpdir, _T("Fpk"), 0, tmppath)) {
-		warn(_T("Failed to get temporary file path"));
-		return;
-	}
-
-	if (!packinit(tmppath))
-		return;
-
-	if (!(resupdate = BeginUpdateResource(tmppath, FALSE))) {
-		warn(_T("Failed to open the temporary file for resource ")
-		    _T("editing"));
-		goto cleanup;
-	}
-
-	for (i = 0; i < count; i++) {
-		if (!getlbstring(listbox, i, srcpath, LEN(srcpath)))
-			goto cleanup;
-		if (!packadd(resupdate, i, srcpath))
-			goto cleanup;
-	}
-
-	EndUpdateResource(resupdate, FALSE);
-	resupdate = NULL;
-
-	if (!CopyFile(tmppath, path, FALSE))
-		warn(_T("Failed to write output file"));
-
-cleanup:
-	if (resupdate)
-		EndUpdateResource(resupdate, TRUE);
-	if (tmppath[0])
-		DeleteFile(tmppath);
-}
-
 static INT_PTR CALLBACK
 dialogproc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -274,7 +183,7 @@ dialogproc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			movefile(wnd, 1);
 			return TRUE;
 		case IDC_PACK:
-			pack(wnd);
+			pack(wnd, 0, NULL, NULL);
 			return TRUE;
 		}
 		break;

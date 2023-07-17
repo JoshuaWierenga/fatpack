@@ -31,8 +31,6 @@ static const _TCHAR USAGE[] = _T(
 "  -o PATH  'fat' universal binary\n"
 );
 
-static _TCHAR *fatbinarypath = NULL;
-
 static void
 print(HANDLE h, const _TCHAR* s) {
 	WriteConsole(h, s, (DWORD)_tcsclen(s), NULL, NULL);
@@ -65,67 +63,6 @@ warn(const _TCHAR* info) {
 	}
 
 	warnx(buf);
-}
-
-static void
-pack(int count, _TCHAR **programs) {
-	_TCHAR tmpdir[MAX_PATH + 1];
-	_TCHAR tmppath[MAX_PATH + 1];
-	HANDLE resupdate = NULL;
-	int i;
-
-	tmppath[0] = '\0';
-
-	if (!count) {
-		warnx(_T("Add one or more executables to pack into a ")
-			_T("'fat' universal binary."));
-		return;
-	}
-
-	if (fatbinarypath == NULL) {
-		warnx(_T("Path to output 'fat' universal binary required, ")
-			_T("specify with - o"));
-		return;
-	}
-
-	if (!GetTempPath(LEN(tmpdir), tmpdir)) {
-		warn(_T("Failed to get temporary directory path"));
-		return;
-	}
-
-	if (!GetTempFileName(tmpdir, _T("Fpk"), 0, tmppath)) {
-		warn(_T("Failed to get temporary file path"));
-		return;
-	}
-
-	if (!packinit(tmppath))
-		return;
-
-	if (!(resupdate = BeginUpdateResource(tmppath, FALSE))) {
-		warn(_T("Failed to open the temporary file for resource ")
-			_T("editing"));
-		goto cleanup;
-	}
-
-	for (i = 0; i < count; i++) {
-		// TODO: Rewrite relative paths as absolute paths with \\.\ when possible
-		if (programs[i][0] == _T('\0'))
-			goto cleanup;
-		if (!packadd(resupdate, i, programs[i]))
-			goto cleanup;
-	}
-
-	EndUpdateResource(resupdate, FALSE);
-	resupdate = NULL;
-
-	if (!CopyFile(tmppath, fatbinarypath, FALSE))
-		warn(_T("Failed to write output file"));
-
-cleanup:
-	if (resupdate)
-		EndUpdateResource(resupdate, TRUE);
-	if (tmppath[0])
-		DeleteFile(tmppath);
 }
 
 static void
@@ -172,7 +109,7 @@ _tmain(int argc, _TCHAR* argv[])
 		printusage(argc, argv, 48, GetStdHandle(STD_ERROR_HANDLE));
 	}
 
-	pack(argc - optind, argv + optind);
+	pack(NULL, argc - optind, argv + optind);
 
 	return 0;
 }

@@ -8,3 +8,6 @@ __declspec(noreturn) void err(const TCHAR *info);
 __declspec(noreturn) void errx(const TCHAR *message);
 
 BOOL makeusedefault(HWND window);
+#ifdef FatpackGUI
+BOOL getlbstring(HWND listbox, int idx, TCHAR* buf, size_t bufsz);
+#endif
