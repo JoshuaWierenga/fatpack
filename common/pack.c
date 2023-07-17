@@ -10,7 +10,8 @@
 #include "../FatpackTUI/resource.h"
 #endif
 
-_TCHAR* fatbinarypath = NULL;
+_TCHAR* FLAG_FATBINARY = NULL;
+BOOL FLAG_GUI = TRUE;
 
 BOOL
 packinit(const _TCHAR* path) {
@@ -20,6 +21,8 @@ packinit(const _TCHAR* path) {
 	void* resdata;
 	size_t resdatasz;
 	HANDLE file;
+	PIMAGE_DOS_HEADER mzheader;
+	WORD newsubsystem;
 
 	instance = GetModuleHandle(NULL);
 
@@ -44,6 +47,14 @@ packinit(const _TCHAR* path) {
 		warn(_T("Failed to write data to temporary file"));
 		CloseHandle(file);
 		return FALSE;
+	}
+
+	if (FLAG_GUI) {
+		mzheader = (PIMAGE_DOS_HEADER)resdata;
+		newsubsystem = IMAGE_SUBSYSTEM_WINDOWS_GUI;
+		SetFilePointer(file, mzheader->e_lfanew + (LONG)offsetof(IMAGE_NT_HEADERS32, 
+			OptionalHeader.Subsystem), 0, FILE_BEGIN);
+		WriteFile(file, &newsubsystem, sizeof newsubsystem, NULL, NULL);
 	}
 
 	CloseHandle(file);
@@ -165,13 +176,13 @@ pack(HWND dialog, int programc, _TCHAR** programv) {
 	if (!GetSaveFileName(&ofn))
 		return;
 #elif defined (FatpackTUI)
-	if (fatbinarypath == NULL) {
+	if (FLAG_FATBINARY == NULL) {
 		warnx(_T("Path to output 'fat' universal binary required, ")
 			_T("specify with - o"));
 		return;
 	}
 
-	path = fatbinarypath;
+	path = FLAG_FATBINARY;
 #endif
 	if (!GetTempPath(LEN(tmpdir), tmpdir)) {
 		warn(_T("Failed to get temporary directory path"));

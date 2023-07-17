@@ -21,14 +21,16 @@ Fatpack comes with absolutely NO WARRANTY of any kind.\n\
 You may redistribute copies of Fatpack under the BSD License.\n\
 For more information, see the file named LICENSE.md.\n")
 
-#define OPTS _T("hvo:")
+#define OPTS _T("hvo:gt")
 
 static const _TCHAR USAGE[] = _T(
-" [-" OPTS "] PROGRAM [ADDITIONAL PROGRAMS...]\n"
-"Options:\n"
-"  -h       help\n"
-"  -v       show version\n"
-"  -o PATH  'fat' universal binary\n"
+	" [-" OPTS "] PROGRAM [ADDITIONAL PROGRAMS...]\n"
+	"Options:\n"
+	"  -h       help\n"
+	"  -v       show version\n"
+	"  -o PATH  'fat' universal binary\n"
+	"  -g       optimise for gui applications\n"
+	"  -t       optimise for tui applications\n"
 );
 
 static void
@@ -87,7 +89,13 @@ getopts(int argc, _TCHAR* argv[])
 	while ((opt = getopt(argc, argv, OPTS)) != -1) {
 		switch (opt) {
 		case 'o':
-			fatbinarypath = optarg;
+			FLAG_FATBINARY = optarg;
+			break;
+		case 'g':
+			FLAG_GUI = TRUE;
+			break;
+		case 't':
+			FLAG_GUI = FALSE;
 			break;
 		case 'v':
 			printversion();
