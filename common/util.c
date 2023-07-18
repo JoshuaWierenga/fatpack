@@ -6,6 +6,12 @@
 
 #define DUMMYCLASSNAME	_T("Dummy")
 
+#ifdef FatpackTUI
+#define EXTRALINE
+#else
+#define EXTRALINE _T("\n")
+#endif
+
 void
 warn(const TCHAR *info)
 {
@@ -20,20 +26,26 @@ warn(const TCHAR *info)
 	    FORMAT_MESSAGE_FROM_SYSTEM, 0, num, 0, (LPTSTR)&errstr, 0, NULL);
 	if (dw) {
 		_sntprintf_s(buf, LEN(buf), _TRUNCATE,
-		    _T("%s:\n\n%s\nError: 0x%X\n"), info, errstr, num);
+			_T("%s:\n") EXTRALINE _T("%s") EXTRALINE _T("Error: 0x%X\n"), info, errstr, num);
 		LocalFree(errstr);
 	} else {
 		_sntprintf_s(buf, LEN(buf), _TRUNCATE,
-		    _T("%s:\n\nerror 0x%X\n"), info, num);
+			_T("%s:\n") EXTRALINE _T("Error 0x%X\n"), info, num);
 	}
 
 	warnx(buf);
 }
 
+// TODO Use WriteConsole in loader if it has console subsystem set
 void
 warnx(const TCHAR *message)
 {
+#ifdef FatpackTUI
+	WriteConsole(GetStdHandle(STD_ERROR_HANDLE), message, (DWORD)_tcsclen(message),
+		NULL, NULL);
+#else
 	MessageBox(NULL, message, _T(PROGNAME), MB_OK | MB_ICONEXCLAMATION);
+#endif
 }
 
 __declspec(noreturn) void

@@ -6,15 +6,14 @@
 #include <tchar.h>
 #include <Windows.h>
 #include "../common/pack.h"
-#include "../common/util.h"
 #include "cosmogetopt/getopt.h"
 
-#define FATPACK_VERSION     "1.1.0"
-#define FATPACK_TUI_VERSION "0.1.0"
+#define FATPACK_VERSION     _T("1.1.0")
+#define FATPACK_TUI_VERSION _T("0.1.0")
 
 #define VERSION \
-	_T("Fatpack pe fat binary creator " FATPACK_VERSION "\n\
-Fatpack TUI " FATPACK_TUI_VERSION "\n\
+	_T("Fatpack pe fat binary creator ") FATPACK_VERSION _T("\n\
+Fatpack TUI ") FATPACK_TUI_VERSION _T("\n\
 Copyright (c) 2021 Sijmen J. Mulder\n\
 Copyright (c) 2023 Joshua Wierenga\n\
 Fatpack comes with absolutely NO WARRANTY of any kind.\n\
@@ -23,48 +22,18 @@ For more information, see the file named LICENSE.md.\n")
 
 #define OPTS _T("hvo:gt")
 
-static const _TCHAR USAGE[] = _T(
-	" [-" OPTS "] PROGRAM [ADDITIONAL PROGRAMS...]\n"
-	"Options:\n"
-	"  -h       help\n"
-	"  -v       show version\n"
-	"  -o PATH  'fat' universal binary\n"
-	"  -g       optimise for gui applications\n"
-	"  -t       optimise for tui applications\n"
-);
+#define USAGE \
+	_T(" [-") OPTS _T("] PROGRAM [ADDITIONAL PROGRAMS...]\n\
+Options:\n\
+  -h       help\n\
+  -v       show version\n\
+  -o PATH  'fat' universal binary\n\
+  -g       optimise for gui applications\n\
+  -t       optimise for tui applications\n")
 
 static void
 print(HANDLE h, const _TCHAR* s) {
 	WriteConsole(h, s, (DWORD)_tcsclen(s), NULL, NULL);
-}
-
-void
-warnx(const _TCHAR* message) {
-	print(GetStdHandle(STD_ERROR_HANDLE), message);
-}
-
-// TODO: Check how this looks on 
-void
-warn(const _TCHAR* info) {
-	DWORD num;
-	DWORD dw;
-	TCHAR buf[4096];
-	TCHAR* errstr;
-
-	num = GetLastError();
-
-	dw = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM, 0, num, 0, (LPTSTR)&errstr, 0, NULL);
-	if (dw) {
-		_sntprintf_s(buf, LEN(buf), _TRUNCATE,
-			_T("%s:\n%sError: 0x%X\n"), info, errstr, num);
-		LocalFree(errstr);
-	} else {
-		_sntprintf_s(buf, LEN(buf), _TRUNCATE,
-			_T("%s:\nError 0x%X\n"), info, num);
-	}
-
-	warnx(buf);
 }
 
 static void
@@ -81,7 +50,7 @@ printversion(void) {
 	exit(0);
 }
 
-void
+static void
 getopts(int argc, _TCHAR* argv[])
 {
 	int opt;

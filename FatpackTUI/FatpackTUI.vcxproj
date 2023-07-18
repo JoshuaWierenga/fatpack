@@ -302,11 +302,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\pack.c" />
+    <ClCompile Include="..\common\util.c" />
     <ClCompile Include="cosmogetopt\getopt.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\pack.h" />
+    <ClInclude Include="..\common\util.h" />
     <ClInclude Include="cosmogetopt\getopt.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

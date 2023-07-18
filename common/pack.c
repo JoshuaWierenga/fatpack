@@ -178,7 +178,7 @@ pack(HWND dialog, int programc, _TCHAR** programv) {
 #elif defined (FatpackTUI)
 	if (FLAG_FATBINARY == NULL) {
 		warnx(_T("Path to output 'fat' universal binary required, ")
-			_T("specify with - o"));
+			_T("specify with -o"));
 		return;
 	}
 
