@@ -83,7 +83,7 @@ main(void)
 
 	for (id = 1000; ; id++) {
 		resinfo = FindResource(NULL, MAKEINTRESOURCE(id),
-			RT_RCDATA);
+		    RT_RCDATA);
 		if (!resinfo)
 			break;
 
