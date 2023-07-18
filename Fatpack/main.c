@@ -1,4 +1,5 @@
-/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md. */
+/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga. */
 
 #include <windows.h>
 #include <tchar.h>
@@ -7,7 +8,7 @@
 #include "resource.h"
 
 BOOL
-getlbstring(HWND listbox, int idx, TCHAR *buf, size_t bufsz)
+getlbstring(HWND listbox, int idx, _TCHAR *buf, size_t bufsz)
 {
 	LRESULT len;
 	LRESULT res;
@@ -37,8 +38,8 @@ getlbstring(HWND listbox, int idx, TCHAR *buf, size_t bufsz)
 static void
 addfile(HWND dialog)
 {
-	TCHAR path[4096];
-	TCHAR *name;
+	_TCHAR path[4096];
+	_TCHAR *name;
 	OPENFILENAME ofn;
 	size_t pathlen, namelen;
 	HWND listbox;
@@ -75,7 +76,7 @@ addfile(HWND dialog)
 		while (*name) {
 			namelen = _tcslen(name);
 			memcpy(&path[pathlen+1], name,
-			    sizeof(TCHAR) * (namelen + 1));
+			    sizeof(_TCHAR) * (namelen + 1));
 			SendMessage(listbox, LB_ADDSTRING, 0, (LPARAM)path);
 			name += namelen+1;
 		}
@@ -114,7 +115,7 @@ movefile(HWND dialog, int offset)
 	LRESULT idx;
 	LRESULT count;
 	LRESULT res;
-	TCHAR path[4096];
+	_TCHAR path[4096];
 
 	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
 		warn(_T("Failed to get list box handle"));

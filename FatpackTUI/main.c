@@ -1,7 +1,7 @@
-/* Copyright (c) 2021 Sijmen J. Mulder. See LICENSE.md.
-   Copyright (c) 2023 Joshua Wierenga.
+/* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga.
    Using code from Blink and Cosmopolitan
-   Copyright (c) 2023 Justine Alexandra Roberts Tunney under ISC license. */
+   Copyright (c) 2023, Justine Alexandra Roberts Tunney under ISC license. */
 
 #include <tchar.h>
 #include <Windows.h>
@@ -32,7 +32,7 @@ Options:\n\
   -t       optimise for tui applications\n")
 
 static void
-print(HANDLE h, const _TCHAR* s) {
+print(HANDLE h, const _TCHAR *s) {
 	WriteConsole(h, s, (DWORD)_tcsclen(s), NULL, NULL);
 }
 

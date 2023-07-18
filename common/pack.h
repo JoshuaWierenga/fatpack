@@ -1,8 +1,9 @@
-/* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md. */
+/* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga. */
 
-extern _TCHAR* FLAG_FATBINARY;
+extern _TCHAR *FLAG_FATBINARY;
 extern BOOL FLAG_GUI;
 
-BOOL packinit(const _TCHAR* path);
-BOOL packadd(HANDLE resupdate, int i, const TCHAR* path);
-void pack(HWND dialog, int count, _TCHAR** programs);
+BOOL packinit(const _TCHAR *path);
+BOOL packadd(HANDLE resupdate, int i, const _TCHAR *path);
+void pack(HWND dialog, int count, _TCHAR **programs);

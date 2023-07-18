@@ -1,4 +1,5 @@
-/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md. */
+/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga. */
 
 #include <windows.h>
 #include <tchar.h>
@@ -6,7 +7,7 @@
 #include "../common/util.h"
 
 static BOOL
-tryrun(HANDLE resinfo, const TCHAR *exepath)
+tryrun(HANDLE resinfo, const _TCHAR *exepath)
 {
 	HGLOBAL reshandle;
 	HANDLE exefile;
@@ -59,9 +60,9 @@ main(void)
 {
 	int id;
 	size_t sz;
-	TCHAR modulepath[MAX_PATH+1];
-	TCHAR tempdir[MAX_PATH+1];
-	TCHAR exepath[MAX_PATH+1];
+	_TCHAR modulepath[MAX_PATH+1];
+	_TCHAR tempdir[MAX_PATH+1];
+	_TCHAR exepath[MAX_PATH+1];
 	HRSRC resinfo;
 
 	// TODO: Remove?

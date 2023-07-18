@@ -1,4 +1,5 @@
-/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md. */
+/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga. */
 
 #include <windows.h>
 #include <tchar.h>
@@ -13,12 +14,12 @@
 #endif
 
 void
-warn(const TCHAR *info)
+warn(const _TCHAR *info)
 {
 	DWORD num;
 	DWORD dw;
-	TCHAR buf[4096];
-	TCHAR *errstr;
+	_TCHAR buf[4096];
+	_TCHAR *errstr;
 
 	num = GetLastError();
 
@@ -38,7 +39,7 @@ warn(const TCHAR *info)
 
 // TODO Use WriteConsole in loader if it has console subsystem set
 void
-warnx(const TCHAR *message)
+warnx(const _TCHAR *message)
 {
 #ifdef FatpackTUI
 	WriteConsole(GetStdHandle(STD_ERROR_HANDLE), message, (DWORD)_tcsclen(message),
@@ -49,14 +50,14 @@ warnx(const TCHAR *message)
 }
 
 __declspec(noreturn) void
-err(const TCHAR *info)
+err(const _TCHAR *info)
 {
 	warn(info);
 	ExitProcess(1);
 }
 
 __declspec(noreturn) void
-errx(const TCHAR *message)
+errx(const _TCHAR *message)
 {
 	warnx(message);
 	ExitProcess(1);

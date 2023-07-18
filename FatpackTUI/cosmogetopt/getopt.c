@@ -41,13 +41,13 @@
 #define BADCH  '?'
 #define BADARG ':'
 
-_TCHAR* program_invocation_name;
+_TCHAR *program_invocation_name;
 
 int opterr;      // If error message should be printed.
 int optind;      // Index into parent argv vector.
 int optopt;      // Character checked for validity.
 int optreset;    // Reset getopt.
-_TCHAR* optarg;  // Argument associated with option.
+_TCHAR *optarg;  // Argument associated with option.
 
 static struct {
   char once;

@@ -1,4 +1,5 @@
-/* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md. */
+/* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga. */
 
 #include <tchar.h>
 #include <Windows.h>
@@ -10,15 +11,15 @@
 #include "../FatpackTUI/resource.h"
 #endif
 
-_TCHAR* FLAG_FATBINARY = NULL;
+_TCHAR *FLAG_FATBINARY = NULL;
 BOOL FLAG_GUI = TRUE;
 
 BOOL
-packinit(const _TCHAR* path) {
+packinit(const _TCHAR *path) {
 	HINSTANCE instance;
 	HANDLE resinfo;
 	HGLOBAL reshandle;
-	void* resdata;
+	void *resdata;
 	size_t resdatasz;
 	HANDLE file;
 	PIMAGE_DOS_HEADER mzheader;
@@ -62,7 +63,7 @@ packinit(const _TCHAR* path) {
 }
 
 BOOL
-packadd(HANDLE resupdate, int i, const TCHAR* path) {
+packadd(HANDLE resupdate, int i, const _TCHAR *path) {
 	HANDLE file;
 	HANDLE mapping;
 	HANDLE view;
@@ -116,20 +117,20 @@ packadd(HANDLE resupdate, int i, const TCHAR* path) {
 }
 
 void
-pack(HWND dialog, int programc, _TCHAR** programv) {
+pack(HWND dialog, int programc, _TCHAR **programv) {
 #if defined(FatpackGUI)
 	HINSTANCE instance;
 	HWND listbox;
 	OPENFILENAME ofn;
-	TCHAR path[4096];
-	TCHAR srcpath[4096];
+	_TCHAR path[4096];
+	_TCHAR srcpath[4096];
 #elif defined(FatpackTUI)
-	_TCHAR* path;
-	_TCHAR* srcpath;
+	_TCHAR *path;
+	_TCHAR *srcpath;
 #endif
 	LRESULT count;
-	TCHAR tmpdir[MAX_PATH + 1];
-	TCHAR tmppath[MAX_PATH + 1];
+	_TCHAR tmpdir[MAX_PATH + 1];
+	_TCHAR tmppath[MAX_PATH + 1];
 	HANDLE resupdate;
 	int i;
 

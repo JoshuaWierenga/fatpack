@@ -1,4 +1,5 @@
-/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md. */
+/* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
+   Copyright (c) 2023, Joshua Wierenga. */
 
 #define IDR_LOADER	100
 
