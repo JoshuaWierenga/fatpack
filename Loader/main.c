@@ -64,6 +64,7 @@ main(void)
 	TCHAR exepath[MAX_PATH+1];
 	HRSRC resinfo;
 
+	// TODO: Remove?
 	AttachConsole(ATTACH_PARENT_PROCESS);
 
 	if (!(GetModuleFileName(NULL, modulepath, LEN(modulepath))))
@@ -72,7 +73,7 @@ main(void)
 		err(_T("Failed to get temporary directory"));
 
 	sz = _sntprintf_s(exepath, LEN(exepath), _TRUNCATE, _T("%s\\%s"),
-		tempdir, PathFindFileName(modulepath));
+	    tempdir, PathFindFileName(modulepath));
 	if (sz == -1)
 		err(_T("_sntprintf_s()"));
 
@@ -91,5 +92,5 @@ main(void)
 	}
 
 	errx(_T("No suitable versions of this program are available for ")
-		_T("your system."));
+	    _T("your system."));
 }

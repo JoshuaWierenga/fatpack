@@ -37,7 +37,7 @@ print(HANDLE h, const _TCHAR* s) {
 }
 
 static void
-printusage(int argc, _TCHAR* argv[], int rc, HANDLE h) {
+printusage(int argc, _TCHAR *argv[], int rc, HANDLE h) {
 	print(h, _T("Usage: "));
 	print(h, argc > 0 && argv[0] ? argv[0] : _T("Fatpack"));
 	print(h, USAGE);
@@ -51,7 +51,7 @@ printversion(void) {
 }
 
 static void
-getopts(int argc, _TCHAR* argv[])
+getopts(int argc, _TCHAR *argv[])
 {
 	int opt;
 	
@@ -77,7 +77,7 @@ getopts(int argc, _TCHAR* argv[])
 }
 
 int
-_tmain(int argc, _TCHAR* argv[])
+_tmain(int argc, _TCHAR *argv[])
 {
 	program_invocation_name = argv[0];
 

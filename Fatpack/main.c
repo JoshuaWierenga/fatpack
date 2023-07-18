@@ -218,7 +218,7 @@ WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
 		err(_T("Failed to adjust window position"));
 
 	ShowWindow(dialog, cmdshow);
-	
+
 	while (ret = GetMessage(&msg, NULL, 0, 0) > 0) {
 		if (!IsDialogMessage(dialog, &msg)) {
 			TranslateMessage(&msg);

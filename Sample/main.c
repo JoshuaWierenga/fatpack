@@ -6,7 +6,8 @@
 #include <tchar.h>
 
 int CALLBACK
-WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow) {
+WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
+{
 #ifdef USE_TERM
 	const TCHAR* output = _T("Hello from " PLATFORM "!\r\n");
 
@@ -19,7 +20,7 @@ WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow) {
 		(DWORD)_tcslen(output), NULL, NULL);
 #else
 	MessageBox(NULL, _T("Hello from " PLATFORM "!"), _T("Sample"),
-		MB_OK | MB_ICONINFORMATION);
+	    MB_OK | MB_ICONINFORMATION);
 #endif
 	return 0;
 }
