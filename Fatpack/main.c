@@ -160,6 +160,10 @@ static INT_PTR CALLBACK
 dialogproc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
+	case WM_INITDIALOG:
+		CheckDlgButton(wnd, IDC_GUI, BST_CHECKED);
+		return TRUE;
+
 	case WM_CLOSE:
 		DestroyWindow(wnd);
 		return TRUE;
@@ -181,6 +185,12 @@ dialogproc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			return TRUE;
 		case IDC_MOVEDOWN:
 			movefile(wnd, 1);
+			return TRUE;
+		case IDC_GUI:
+			FLAG_GUI = TRUE;
+			return TRUE;
+		case IDC_TUI:
+			FLAG_GUI = FALSE;
 			return TRUE;
 		case IDC_PACK:
 			pack(wnd, 0, NULL);
@@ -208,7 +218,7 @@ WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
 		err(_T("Failed to adjust window position"));
 
 	ShowWindow(dialog, cmdshow);
-
+	
 	while (ret = GetMessage(&msg, NULL, 0, 0) > 0) {
 		if (!IsDialogMessage(dialog, &msg)) {
 			TranslateMessage(&msg);
