@@ -11,6 +11,7 @@ tryrun(HANDLE resinfo, const _TCHAR *exepath)
 {
 	HGLOBAL reshandle;
 	HANDLE exefile;
+	DWORD bytesWritten;
 	HANDLE exefilero;
 	void *data;
 	DWORD datasz;
@@ -31,7 +32,7 @@ tryrun(HANDLE resinfo, const _TCHAR *exepath)
 	    FILE_ATTRIBUTE_TEMPORARY, NULL);
 	if (exefile == INVALID_HANDLE_VALUE)
 		err(_T("Failed to create temporary file"));
-	if (!(WriteFile(exefile, data, datasz, NULL, NULL)))
+	if (!(WriteFile(exefile, data, datasz, &bytesWritten, NULL)))
 		err(_T("Failed to write to temporary file"));
 
 	exefilero = CreateFile(exepath, GENERIC_READ, FILE_SHARE_READ,
@@ -42,7 +43,7 @@ tryrun(HANDLE resinfo, const _TCHAR *exepath)
 
 	ran = CreateProcess(exepath, NULL, NULL, NULL, TRUE, 0, NULL,
 	    NULL, &startup, &process);
-	if (!ran && GetLastError() != ERROR_EXE_MACHINE_TYPE_MISMATCH)
+	if (!ran && GetLastError() != ERROR_EXE_MACHINE_TYPE_MISMATCH && GetLastError() != ERROR_BAD_EXE_FORMAT)
 		err(_T("Failed to launch embedded executable"));
 
 	if (ran) {
@@ -64,9 +65,6 @@ main(void)
 	_TCHAR tempdir[MAX_PATH+1];
 	_TCHAR exepath[MAX_PATH+1];
 	HRSRC resinfo;
-
-	// TODO: Remove?
-	AttachConsole(ATTACH_PARENT_PROCESS);
 
 	if (!(GetModuleFileName(NULL, modulepath, LEN(modulepath))))
 		err(_T("Failed to get program filename"));

@@ -22,6 +22,7 @@ packinit(const _TCHAR *path) {
 	void *resdata;
 	size_t resdatasz;
 	HANDLE file;
+	DWORD bytesWritten;
 	PIMAGE_DOS_HEADER mzheader;
 	WORD newsubsystem;
 
@@ -44,7 +45,7 @@ packinit(const _TCHAR *path) {
 		return FALSE;
 	}
 
-	if (!WriteFile(file, resdata, (DWORD)resdatasz, NULL, NULL)) {
+	if (!WriteFile(file, resdata, (DWORD)resdatasz, &bytesWritten, NULL)) {
 		warn(_T("Failed to write data to temporary file"));
 		CloseHandle(file);
 		return FALSE;
@@ -55,7 +56,7 @@ packinit(const _TCHAR *path) {
 		newsubsystem = IMAGE_SUBSYSTEM_WINDOWS_GUI;
 		SetFilePointer(file, mzheader->e_lfanew + (LONG)offsetof(IMAGE_NT_HEADERS32, 
 			OptionalHeader.Subsystem), 0, FILE_BEGIN);
-		WriteFile(file, &newsubsystem, sizeof newsubsystem, NULL, NULL);
+		WriteFile(file, &newsubsystem, sizeof newsubsystem, &bytesWritten, NULL);
 	}
 
 	CloseHandle(file);
