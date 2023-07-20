@@ -1,6 +1,7 @@
 /* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
    Copyright (c) 2023, Joshua Wierenga. */
 
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #include <windows.h>
 #include <tchar.h>
 #include <shlwapi.h>
@@ -22,9 +23,9 @@ tryrun(HANDLE resinfo, const _TCHAR *exepath)
 	ZeroMemory(&startup, sizeof(startup));
 	startup.cb = sizeof(startup);
 
-	if (!(reshandle = LoadResource(NULL, resinfo)) ||
-	    !(data = LockResource(reshandle)) ||
-	    !(datasz = SizeofResource(NULL, resinfo)))
+	if (!((reshandle = LoadResource(NULL, resinfo))) ||
+	    !((data = LockResource(reshandle))) ||
+	    !((datasz = SizeofResource(NULL, resinfo))))
 		err(_T("Failed to load embedded resource"));
 
 	exefile = CreateFile(exepath, GENERIC_WRITE, FILE_SHARE_READ,
@@ -73,7 +74,7 @@ main(void)
 
 	sz = _sntprintf_s(exepath, LEN(exepath), _TRUNCATE, _T("%s\\%s"),
 	    tempdir, PathFindFileName(modulepath));
-	if (sz == -1)
+	if (sz == -1u)
 		err(_T("_sntprintf_s()"));
 
 	/* Prevent error message box when we try to launch an incompatible

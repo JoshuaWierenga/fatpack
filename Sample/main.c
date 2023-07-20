@@ -3,6 +3,7 @@
 
 #define USE_TERM
 
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #include <windows.h>
 #include <tchar.h>
 
@@ -10,7 +11,7 @@ int CALLBACK
 WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
 {
 #ifdef USE_TERM
-	const _TCHAR *output = _T("Hello from " PLATFORM "!\r\n");
+	const _TCHAR *output = _T("Hello from ") _T(PLATFORM) _T("!\r\n");
 
 	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
 		AllocConsole();

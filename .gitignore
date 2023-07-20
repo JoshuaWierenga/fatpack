@@ -6,3 +6,4 @@ BundleArtifacts/
 *.user
 *.aps
 *.pfx
+*.assets.cache

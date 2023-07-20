@@ -67,7 +67,7 @@ static void getopt_print(const _TCHAR *s) {
     currentsize -= 2;
     _tcsncat_s(b1, currentsize, s, _tcsclen(s));
     currentsize -= _tcsclen(s);
-    b2[4] = optopt;
+    b2[4] = (_TCHAR)optopt;
     b2[5] = '\r';
     b2[6] = '\n';
     b2[7] = 0;

@@ -1,6 +1,7 @@
 /* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md.
    Copyright (c) 2023, Joshua Wierenga. */
 
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #include <tchar.h>
 #include <Windows.h>
 #include "pack.h"
@@ -31,9 +32,9 @@ packinit(const _TCHAR *path) {
 	resinfo = FindResource(instance, MAKEINTRESOURCE(IDR_LOADER),
 		RT_RCDATA);
 	if (!resinfo ||
-		!(reshandle = LoadResource(instance, resinfo)) ||
-		!(resdata = LockResource(reshandle)) ||
-		!(resdatasz = SizeofResource(instance, resinfo))) {
+		!((reshandle = LoadResource(instance, resinfo))) ||
+		!((resdata = LockResource(reshandle))) ||
+		!((resdatasz = SizeofResource(instance, resinfo)))) {
 		warn(_T("Failed to load embbed launcher resource"));
 		return FALSE;
 	}
@@ -54,8 +55,12 @@ packinit(const _TCHAR *path) {
 	if (FLAG_GUI) {
 		mzheader = (PIMAGE_DOS_HEADER)resdata;
 		newsubsystem = IMAGE_SUBSYSTEM_WINDOWS_GUI;
-		SetFilePointer(file, mzheader->e_lfanew + (LONG)offsetof(IMAGE_NT_HEADERS32, 
-			OptionalHeader.Subsystem), 0, FILE_BEGIN);
+		// Not using offsetof(IMAGE_NT_HEADERS32, OptionalHeader.Subsystem) as that causes resharper
+		// to complain if using clang's stddef header due to __builtin_offsetof being poorly supported
+		// https://youtrack.jetbrains.com/issue/RSCPP-28163/builtinoffsetof-is-not-recognized
+		SetFilePointer(file, mzheader->e_lfanew + (LONG)offsetof(IMAGE_NT_HEADERS32,
+			OptionalHeader) + (LONG)offsetof(IMAGE_OPTIONAL_HEADER32, Subsystem), 
+			0, FILE_BEGIN);
 		WriteFile(file, &newsubsystem, sizeof newsubsystem, &bytesWritten, NULL);
 	}
 
@@ -139,7 +144,7 @@ pack(HWND dialog, int programc, _TCHAR **programv) {
 #if defined(FatpackGUI)
 	instance = GetModuleHandle(NULL);
 
-	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
+	if (!((listbox = GetDlgItem(dialog, IDC_EXELIST)))) {
 		warn(_T("Failed to get list box handle"));
 		return;
 	}
@@ -199,7 +204,7 @@ pack(HWND dialog, int programc, _TCHAR **programv) {
 	if (!packinit(tmppath))
 		return;
 
-	if (!(resupdate = BeginUpdateResource(tmppath, FALSE))) {
+	if (!((resupdate = BeginUpdateResource(tmppath, FALSE)))) {
 		warn(_T("Failed to open the temporary file for resource ")
 			_T("editing"));
 		goto cleanup;

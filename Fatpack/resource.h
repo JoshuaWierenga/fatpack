@@ -1,6 +1,8 @@
 /* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
    Copyright (c) 2023, Joshua Wierenga. */
 
+#pragma once
+
 #define IDR_LOADER	100
 
 #define IDD_FATPACK	200

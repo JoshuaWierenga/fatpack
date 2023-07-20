@@ -3,6 +3,7 @@
    Using code from Blink and Cosmopolitan
    Copyright (c) 2023, Justine Alexandra Roberts Tunney under ISC license. */
 
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #include <tchar.h>
 #include <Windows.h>
 #include "../common/pack.h"
@@ -32,20 +33,23 @@ Options:\n\
   -t       optimise for tui applications\n")
 
 static void
-print(HANDLE h, const _TCHAR *s) {
+print(HANDLE h, const _TCHAR *s)
+{
 	WriteConsole(h, s, (DWORD)_tcsclen(s), NULL, NULL);
 }
 
-static void
-printusage(int argc, _TCHAR *argv[], int rc, HANDLE h) {
+__declspec(noreturn) static void
+printusage(int argc, _TCHAR *argv[], int rc, HANDLE h)
+{
 	print(h, _T("Usage: "));
 	print(h, argc > 0 && argv[0] ? argv[0] : _T("Fatpack"));
 	print(h, USAGE);
 	exit(rc);
 }
 
-static void
-printversion(void) {
+__declspec(noreturn) static void
+printversion(void)
+{
 	print(GetStdHandle(STD_OUTPUT_HANDLE), VERSION);
 	exit(0);
 }

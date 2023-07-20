@@ -1,6 +1,7 @@
 /* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
    Copyright (c) 2023, Joshua Wierenga. */
 
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #include <windows.h>
 #include <tchar.h>
 #include "../common/pack.h"
@@ -44,7 +45,7 @@ addfile(HWND dialog)
 	size_t pathlen, namelen;
 	HWND listbox;
 
-	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
+	if (!((listbox = GetDlgItem(dialog, IDC_EXELIST)))) {
 		warn(_T("Failed to get listbox handle"));
 		return;
 	}
@@ -75,7 +76,7 @@ addfile(HWND dialog)
 		path[pathlen] = _T('\\');
 		while (*name) {
 			namelen = _tcslen(name);
-			memcpy(&path[pathlen+1], name,
+			memcpy_s(&path[pathlen+1], sizeof(path), name,
 			    sizeof(_TCHAR) * (namelen + 1));
 			SendMessage(listbox, LB_ADDSTRING, 0, (LPARAM)path);
 			name += namelen+1;
@@ -92,7 +93,7 @@ removefile(HWND dialog)
 	HWND listbox;
 	LRESULT idx;
 
-	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
+	if (!((listbox = GetDlgItem(dialog, IDC_EXELIST)))) {
 		warn(_T("Failed to get listbox handle"));
 		return;
 	}
@@ -117,7 +118,7 @@ movefile(HWND dialog, int offset)
 	LRESULT res;
 	_TCHAR path[4096];
 
-	if (!(listbox = GetDlgItem(dialog, IDC_EXELIST))) {
+	if (!((listbox = GetDlgItem(dialog, IDC_EXELIST)))) {
 		warn(_T("Failed to get list box handle"));
 		return;
 	}
@@ -140,7 +141,7 @@ movefile(HWND dialog, int offset)
 	if (!getlbstring(listbox, (int)idx, path, LEN(path)))
 		return;
 
-	res = SendMessage(listbox, LB_DELETESTRING, (WPARAM)idx, 0);
+	SendMessage(listbox, LB_DELETESTRING, (WPARAM)idx, 0);
 	if (idx == LB_ERR) {
 		warnx(_T("The entry could not be removed from the list ")
 		    _T("box."));
@@ -220,7 +221,7 @@ WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdline, int cmdshow)
 
 	ShowWindow(dialog, cmdshow);
 
-	while (ret = GetMessage(&msg, NULL, 0, 0) > 0) {
+	while ((ret = GetMessage(&msg, NULL, 0, 0) > 0)) {
 		if (!IsDialogMessage(dialog, &msg)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
