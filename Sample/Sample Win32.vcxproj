@@ -13,11 +13,11 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9A9BA389-F216-46C1-A761-AF2F0371719A}</ProjectGuid>
   </PropertyGroup>
-  <Import Project="1.Global.props" />
+  <Import Project="$(MsbuildThisFileDirectory)\1.Global.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="2.Configuration.props" />
+  <Import Project="$(MsbuildThisFileDirectory)\..\2.Configuration.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="3.Main.props" />
+  <Import Project="$(MsbuildThisFileDirectory)\3.Main.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="4.Targets.props" />
+  <Import Project="$(MsbuildThisFileDirectory)\..\4.Targets.props" />
 </Project>
