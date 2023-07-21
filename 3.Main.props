@@ -34,4 +34,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <Manifest Include="$(MsbuildThisFileDirectory)\General.manifest" />
+  </ItemGroup>
 </Project>

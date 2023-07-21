@@ -52,11 +52,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'" </AdditionalManifestDependencies>
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>PerMonitorHighDPIAware</EnableDPIAwareness>
-    </Manifest>
     <ResourceCompile>
       <PreprocessorDefinitions>LOADER_PATH="$(SolutionDir)bin\$(Configuration)\Loader.exe";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
@@ -73,6 +69,9 @@
     <ClInclude Include="..\common\pack.h" />
     <ClInclude Include="..\common\util.h" />
     <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="$(MsbuildThisFileDirectory)\..\GUI.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(MsbuildThisFileDirectory)\..\4.Targets.props" />

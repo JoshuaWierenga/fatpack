@@ -18,6 +18,8 @@
   <PropertyGroup Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64' Or '$(Platform)'=='ARM64'" Label="Configuration">
     <PlatformToolset>ClangCL</PlatformToolset>
   </PropertyGroup>
+  <!-- TODO Find a way to use ClangCL for aarch32, clang supports it but microsoft doesn't include support
+       https://developercommunity.visualstudio.com/t/clang-arm64-compiler-support/1026093#T-N1284848 -->
   <PropertyGroup Condition="'$(Platform)'=='ARM'" Label="Configuration">
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
