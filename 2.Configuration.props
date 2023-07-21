@@ -5,6 +5,10 @@
     <CharacterSet>Unicode</CharacterSet>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)obj\$(ProjectName) $(Platform) $(Configuration)\</IntDir>
+    <PlatformToolset Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64' Or '$(Platform)'=='ARM64'">ClangCL</PlatformToolset>
+    <!-- TODO Find a way to use ClangCL for aarch32, clang supports it but microsoft doesn't include support
+         https://developercommunity.visualstudio.com/t/clang-arm64-compiler-support/1026093#T-N1284848 -->
+    <PlatformToolset Condition="'$(Platform)'=='ARM'">v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <LinkIncremental>true</LinkIncremental>
@@ -14,13 +18,5 @@
     <LinkIncremental>false</LinkIncremental>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64' Or '$(Platform)'=='ARM64'" Label="Configuration">
-    <PlatformToolset>ClangCL</PlatformToolset>
-  </PropertyGroup>
-  <!-- TODO Find a way to use ClangCL for aarch32, clang supports it but microsoft doesn't include support
-       https://developercommunity.visualstudio.com/t/clang-arm64-compiler-support/1026093#T-N1284848 -->
-  <PropertyGroup Condition="'$(Platform)'=='ARM'" Label="Configuration">
-    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
 </Project>

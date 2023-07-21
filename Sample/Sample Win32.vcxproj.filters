@@ -19,4 +19,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="$(MsbuildThisFileDirectory)\..\GUI.manifest" />
+    <Manifest Include="$(MsbuildThisFileDirectory)\General.manifest" />
+  </ItemGroup>
 </Project>

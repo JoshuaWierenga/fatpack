@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="$(MsbuildThisFileDirectory)\..\2.Configuration.props" />
+  <PropertyGroup Label="Configuration">
+    <IntDir>$(SolutionDir)obj\$(ProjectName) $(Configuration)\</IntDir>
+  </PropertyGroup>
+</Project>

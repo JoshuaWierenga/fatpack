@@ -15,7 +15,7 @@
   </PropertyGroup>
   <Import Project="$(MsbuildThisFileDirectory)\1.Global.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="$(MsbuildThisFileDirectory)\..\2.Configuration.props" />
+  <Import Project="$(MsbuildThisFileDirectory)\2.Configuration.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(MsbuildThisFileDirectory)\3.Main.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

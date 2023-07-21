@@ -53,4 +53,7 @@
       <Filter>Source Files\getopt</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="$(MsbuildThisFileDirectory)\General.manifest" />
+  </ItemGroup>
 </Project>
