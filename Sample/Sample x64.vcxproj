@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|x64">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{44B9BC25-8A16-4531-A794-E7A2767C2BCC}</ProjectGuid>

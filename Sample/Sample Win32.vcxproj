@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|Win32">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9A9BA389-F216-46C1-A761-AF2F0371719A}</ProjectGuid>

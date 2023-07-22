@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|ARM64">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EEACD5F3-9368-438E-99B9-2011F24C3C06}</ProjectGuid>

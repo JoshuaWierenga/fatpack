@@ -3,20 +3,12 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>PLATFORM="$(Platform)";_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="$(Configuration.Contains('Release'))">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
-    <ClCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
-    <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />

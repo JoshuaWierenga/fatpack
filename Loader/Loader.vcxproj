@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|Win32">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{87340E93-CDFE-499C-9218-38B2DF035499}</ProjectGuid>
@@ -22,21 +26,13 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>PROGNAME="Loader";PLATFORM="$(Platform)";_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="$(Configuration.Contains('Release'))">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
-    <ClCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
-    <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\common\util.h" />

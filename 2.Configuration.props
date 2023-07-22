@@ -14,7 +14,7 @@
     <LinkIncremental>true</LinkIncremental>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+  <PropertyGroup Condition="$(Configuration.Contains('Release'))" Label="Configuration">
     <LinkIncremental>false</LinkIncremental>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>

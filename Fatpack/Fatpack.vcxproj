@@ -33,6 +33,22 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|ARM">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|ARM64">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|Win32">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|x64">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A078937B-C964-4A72-86E3-3E4610970B8E}</ProjectGuid>

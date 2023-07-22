@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>ARM</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="StaticRelease|ARM">
+      <Configuration>StaticRelease</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{58EF3B76-723C-43C1-880D-C3AEC2F31703}</ProjectGuid>
