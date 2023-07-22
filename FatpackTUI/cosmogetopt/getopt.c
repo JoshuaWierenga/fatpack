@@ -32,6 +32,7 @@
  * $DragonFly: src/lib/libc/stdlib/getopt.c,v 1.7 2005/11/20 12:37:48 swildner
  */
 
+#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #include <tchar.h>
 #include <Windows.h>
 

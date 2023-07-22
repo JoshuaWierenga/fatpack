@@ -3,7 +3,7 @@
 
 #define USE_TERM
 
-#define _WIN32_WINNT _WIN32_WINNT_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #include <windows.h>
 #include <tchar.h>
 

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018, Sijmen J. Mulder. See LICENSE.md.
    Copyright (c) 2023, Joshua Wierenga. */
 
-#define _WIN32_WINNT _WIN32_WINNT_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #include <windows.h>
 #include <tchar.h>
 #include <shlwapi.h>

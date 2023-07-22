@@ -16,11 +16,12 @@
       <Optimization Condition="'$(Configuration)'=='Debug'">Disabled</Optimization>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation Condition="'$(Configuration)'=='Debug'">true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
       <MinimumRequiredVersion Condition="'$(Platform)'=='ARM'">6.2</MinimumRequiredVersion>
       <MinimumRequiredVersion Condition="'$(Platform)'=='ARM64'">10.0</MinimumRequiredVersion>
-      <MinimumRequiredVersion Condition="'$(Platform)'=='Win32'">6.0</MinimumRequiredVersion>
-      <MinimumRequiredVersion Condition="'$(Platform)'=='x64'">6.0</MinimumRequiredVersion>
+      <MinimumRequiredVersion Condition="'$(Platform)'=='Win32'">5.1</MinimumRequiredVersion>
+      <MinimumRequiredVersion Condition="'$(Platform)'=='x64'">5.1</MinimumRequiredVersion>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -30,6 +31,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>

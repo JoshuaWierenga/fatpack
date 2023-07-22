@@ -3,7 +3,7 @@
    Using code from Blink and Cosmopolitan
    Copyright (c) 2023, Justine Alexandra Roberts Tunney under ISC license. */
 
-#define _WIN32_WINNT _WIN32_WINNT_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #include <tchar.h>
 #include <Windows.h>
 #include "../common/pack.h"

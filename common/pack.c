@@ -1,7 +1,7 @@
 /* Copyright (c) 2021, Sijmen J. Mulder. See LICENSE.md.
    Copyright (c) 2023, Joshua Wierenga. */
 
-#define _WIN32_WINNT _WIN32_WINNT_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #include <tchar.h>
 #include <Windows.h>
 #include "pack.h"
@@ -41,7 +41,7 @@ packinit(const _TCHAR *path) {
 
 	file = CreateFile(path, GENERIC_WRITE, 0, NULL, OPEN_EXISTING,
 		FILE_ATTRIBUTE_TEMPORARY, NULL);
-	if (!file) {
+	if (!file || file == INVALID_HANDLE_VALUE) {
 		warn(_T("Failed to open temporary file for writing"));
 		return FALSE;
 	}
@@ -78,7 +78,7 @@ packadd(HANDLE resupdate, int i, const _TCHAR *path) {
 	
 	file = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (!file) {
+	if (!file || file == INVALID_HANDLE_VALUE) {
 		warn(_T("Failed to open input file for reading"));
 		return FALSE;
 	}
